@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8">
+        <title>Netflix Visualizer Dashboard</title>
+        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+        <link rel="stylesheet" href="main.css"/>
+        <!--Feel free to add more CSS files as needed-->
+        <script type="text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
+    </head>
+<body>
+    <div class="header">
+        <h3>🎥 Netflix Visualized 🍿</h3>
+    </div>
+    <!--  We included a basic HTML structure for the 3 graphs here. Feel free to change this if you'd like  -->
+    <div class="row">
+        <div class="col-lg-6">
+            <div id="bar-plot"></div>
+            <div id="runtime-graph"></div><br/>
+        </div>
+        <div id="flow-container" class="col-lg-6">
+            <div id="flow-chart"></div>
+            <div id="flow-options">
+                <!-- Dropdowns to choose directors for actor flow chart -->
+                <h5>Director</h5>
+                <select id="director1-select"></select>
+                <!-- hidden to make the graph simpler -->
+                <select id="director2-select" style="display:none">
+                    <option value="" selected="selected">None</option>
+                </select>
+                <select id="director3-select" style="display:none">
+                    <option value="" selected="selected">None</option>
+                </select>
+                <h5>Stats</h5>
+                <p>Median # Connections: <span id="med-connections-count">0</span></p>
+                <p>Highest # Connections: <span id="top-connections-count">0</span></p>
+            </div>
+        </div>
+    </div>
+    <!-- Answers to Written Questions-->
+    <div class="row">
+        <div id="writeup">
+            <div id="question-1" class="row" >
+                <h4>How does my dashboard answer the questions?</h4>
+                <ol>
+                    <li>Your boss wants to know the <b>number of titles per genre</b> on Netflix.</li>
+                    <p>The bar graph at the top displays the number of titles of each film or TV Show on Netflix, with the scale of the bars proportional to the number of titles. This is ordered by highest to lowest, so you can easily see the ranking of genres and the top genres represented on Netflix.  The exact number is provided next to the bar for clarity.</p>
+                    <li>Your boss wants to understand the <b>average runtime of movies</b> by release year.</li>
+                    <p>I created a line graph/scatter plot hybrid that plots the average runtime of Netflix films released per year, in the order of release year so you can assess how the average runtime has changed over time. The dots represent the average runtime of a particular year, and can be hovered over for the exact runtime data, allowing you to easily investigate the average runtime of movies by release year.</p>
+                    <li>We want to learn about the <b>cast and directors</b>.</li>
+                    <p>The network graph allows you to explore the connections between actors for all films on Netflix directed by a particular director. Without the director filter, the data set is far too large for a user to look through and learn from, so the filter allows you to learn about the actors that starred in that director’s films, as well as all the connections between the actors (where a connection between actors A and B is defined as a film that A and B both starred in). You can hover over links to learn about the connection, and hover over the nodes to learn about the actor & their films. Directors with fewer films were omitted for sake of clarity.
+                    </p>
+                </ol>
+             </div>
+
+             <div id="question-2" class="row" >
+                <h4>How did D3 improve these visualizations?</h4>
+                <ol>
+                    <li><b>Tooltips</b> allow you to show additional information only when you want to see it, creating greater access to information with less-crowded and easier-to-read graphs.</li>
+                    <li>D3 allows the graphs to be <b>interactive</b>, meaning that the user can choose a director on the dropdown, and have the graph live-update to that change. This opens up many possibilities and allows your users to better engage with the data!</li>
+                    <li>D3 allows you to create <b>scalings and special styling</b> that make the graphs <em>not only </em> more aesthetically pleasing, but also help display your data more effectively. For example, the sizes of my nodes on the network graph is reflective of the number of connections they have, giving users a quick sense of which actors have the most connections.</li>
+                </ol>
+             </div>
+
+             <div id="question-3" class="row" >
+                <h4>Why would you choose not to use D3 for your visualization? </h4>
+                <ol>
+                    <li><b>Time.</b> D3 takes much longer to code than quick matplotlib visualizations. When you quickly want to visualize your data to see what it looks like, or try a few different graphs to see what works, D3 won’t be the best option!</li>
+                    <li><b>Simplicity.</b> D3 excels at interactive visualizations, but when you just need a simple graph that displays the gender breakdown of a student body or the distribution of test scores, you can create a perfectly clear and simple graph that represents your data well using Excel or matplotlib.</li>
+                    <li><b>Knowledge.</b> D3 is difficult to both learn and master. If you aren’t familiar with JavaScript or coding in general, it will be easier and more efficient to use automatic graph generation tools such as Excel.</li>
+                </ol>
+             </div>
+
+             <div id="question-4" class="row" >
+                <h4>Give two different ways in which graphs may confuse or mislead viewers. What are ways to avoid this or fix these issues?</h4>
+                <ol>
+                    <li><b>Omitting the baseline</b> will confuse viewers because it will skew their sense of scale and over exaggerate the differences between numbers. This can be fixed by adding the baseline in, so, for example, starting the axis at 0% rather than 60%, so you can see the entire 0-100% scale.</li>
+                    <li><b>Going against convention</b> will mislead viewers because many people will not read the legend first; they will look at the graph and get an immediate, incorrect impression. People are used to certain conventions (like small circles on a map representing low numbers of COVID-19 cases), so if you do the opposite, it can lead to confusion. You can avoid this by researching common conventions ahead of time, and then using those conventions to the best of your abilities in your graphs.</li>
+                </ol>
+             </div>
+
+             <div id="question-5" class="row" >
+                <h4>Example of good visualization</h4>
+                <ul>
+                    <li><b><a href="http://www.slate.com/blogs/the_slatest/2015/10/06/syrian_conflict_relationships_explained.html">This visualization</a> is excellent</b> because it transforms a complicated topic (relationships between many Syrian groups) into a simple, intuitive table that lets you A) easily find the relationship between two groups, and B) gives you an overall impression of each group’s relationships (you can look at any column to see whether they have more angry faces or smiley faces).  This visualization benefits from its clean and simple grid view, its intuitive emojis, and its interactivity (you can hover over any emoji to highlight the two Syrian groups that it represents and learn a bit more about their history).
+                </li></ul>
+             </div>
+
+             <div id="question-6" class="row" >
+                <h4>Example of bad visualization</h4>
+                <ul>
+                    <li><b><a href="bad_viz.png">This visualization</a> is poor</b> because  it cuts the circle equally in half, giving readers an immediate impression of equality, while it actually intends to show the <em>inequality</em> in COVID-19 deaths among gender.  Even after looking at the percentages and realizing that they are unequal, it is still hard to gauge what 63% vs 37% looks like (which is the point of data visualization!!). This visualization would have fared better with a simple pie chart that clearly demonstrates the portion of COVID-19 deaths that were male vs the portion that were female. 
+                </li></ul>
+             </div>
+
+             <div id="question-7" class="row" >
+                <h4>Extra Credit</h4>
+                <ol>
+                    <li>I implemented a <b>dynamic stats calculation</b> for the network graph. I dynamically calculate both the median number of connections and the top number of connections for the set of nodes displayed in the network. When the user updates the selected director, the statistics are recalculated and displayed. These statistics are important to give users an overview of the data they are seeing, with context on the median and the top number.</li>
+                    <li>I implemented a <b>flow-type network graph</b> to address question 3.</li>
+                </ol>
+             </div>
+
+             
+            
+        </div>
+        
+    </div>
+    <!--Feel free to add more JavaScript files as needed-->
+    <script type="text/javascript" src="main.js"></script>
+    <script type="text/javascript" src="genre_graph.js"></script>
+    <script type="text/javascript" src="runtime_graph.js"></script>
+    <script type="text/javascript" src="flow_chart.js"></script>
+</body>
+</html>
